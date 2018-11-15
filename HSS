@@ -1,0 +1,44 @@
+sudo rpi-update
+sudo apt-get install python-dateutil
+
+sudo apt-get install python-setuptools
+
+sudo apt-get install python-dev
+
+sudo apt-get install libevent-dev
+
+sudo apt-get install ncurses-
+git clone git://github.com/tgalal/yowsup.git
+
+cd yowsup
+
+sudo python setup.py install
+
+python yowsup-cli registration --requestcode sms --phone 91xxxxxxxxxx --cc 91 --mcc 405 --mnc 035
+python yowsup-cli registration --register xxx-xxx --phone 91xxxxxxxxxx --cc 91
+sudo nano /home/pi/yowsup/config
+cc=39 #if not specified it will be autodetected
+
+  phone=39xxxxxxxxxx
+
+  password=xxxxxxxxxxxxxxx
+  yowsup-cli demos --yowsup --config config
+  /message send 91xxxxxxxxxx "Your message"
+
+def TakePhoto(received):
+    Answer("Your photo will be sent soon")
+    camera=picamera.PiCamera()
+    camera.rotation=180
+    camera.resolution=(640, 480)
+    time.sleep(2)
+    camera.capture("lastimage.jpg", format='jpeg', quality=75, thumbnail=None)
+    camera.close()
+    if os.path.exists("lastimage.jpg"):
+        try:
+            stack = SendMediaStack(credential(), [(["390000000000", "lastimage.jpg"])])
+            stack.start()
+        except ImageSent as e:
+            if ("ERROR" in e.value): Answer("Could not send the photo, sorry!")
+    else:
+        Answer("I found no photo to send!")
+    return
